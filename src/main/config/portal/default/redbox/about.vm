@@ -1,0 +1,69 @@
+#macro(pluginList $plugins $type)
+    #foreach($plugin in $plugins)
+        <div class="pluginAbout" id="$plugin.id">
+            <h3>$plugin.name</h3>
+            $self.getAboutPage($plugin.id, $type)
+        </div>
+    #end
+#end
+#set($pageTitle = "About")
+<h2 id="page-heading"><span>About</span></h2>
+<div class="grid_16">
+    #set($contentTitle = "Description")
+    #parseTemplate("wrapping/content-block-open.vm")
+	###Modified about page wording by Sue Li 30/10/2013 
+    <div class="article first">
+        <p><b>ReDBox/Mint version:</b> $systemConfig.getString("Unknown", "redbox.version.string")</p>
+        <p>The Research Data Discovery Service is a system for collecting information on research datasets and data collections at the University of Tasmania. It subsequently makes that information searchable by individuals and available for harvesting by external organisations. One such harvester is Research Data Australia - see http://researchdata.ands.org.au/</p>
+        <p>This system has been developed as part of a project supported by the Australian National Data Service (ANDS) through the National Collaborative Research Infrastructure Strategy Program and the Education Investment Fund (EIF) Super Science Initiative, as well as through the Queensland Cyber Infrastructure Foundataion (QCIF).</p>
+		<p>This site is powered by ReDBox - see <a href="http://www.redboxresearchdata.com.au">ReDBox project page</a>
+        for more information about this product.</p>
+    </div>
+	###End of Modified about page wording by Sue Li 30/10/2013 
+    <p/>
+    #if($page.authentication.is_admin())
+    #parseTemplate("wrapping/content-block-close.vm")
+    #set($contentTitle = "Plugins")
+    #parseTemplate("wrapping/content-block-open.vm")
+    <div id="plugin-tabs">
+        <ul>
+            <li><a href="#indexer">Indexer</a></li>
+            <li><a href="#storage">Storage</a></li>
+            <li><a href="#harvester">Harvester</a></li>
+            <li><a href="#transformer">Transformer</a></li>
+            <li><a href="#access-control">Access control</a></li>
+            <li><a href="#authentication">Authentication</a></li>
+            <li><a href="#roles">Roles</a></li>
+            <li><a href="#subscriber">Subscriber</a></li>
+        </ul>
+        <div id="indexer">
+            #pluginList($self.indexerPlugins, "indexer")
+        </div>
+        <div id="storage">
+            #pluginList($self.storagePlugins, "storage")
+        </div>
+        <div id="harvester">
+            #pluginList($self.harvesterPlugins, "harvester")
+        </div>
+        <div id="transformer">
+            #pluginList($self.transformerPlugins, "transformer")
+        </div>
+        <div id="access-control">
+            #pluginList($self.accessControlPlugins, "access")
+        </div>
+        <div id="authentication">
+            #pluginList($self.authenticationPlugins, "authentication")
+        </div>
+        <div id="roles">
+            #pluginList($self.rolesPlugins, "roles")
+        </div>
+        <div id="subscriber">
+            #pluginList($self.subscriberPlugins, "subscriber")
+        </div>
+    </div>
+    #parseTemplate("wrapping/content-block-close.vm")
+    <script type="text/javascript">
+    $(function(){ $("#plugin-tabs").tabs(); });
+    </script>
+    #end
+</div>
